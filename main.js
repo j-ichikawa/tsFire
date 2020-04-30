@@ -44,4 +44,6 @@ javascript:(async function () {
             }
         }
     }
+
+    console.log('done.');
 })();
