@@ -4,7 +4,7 @@ javascript:(async function () {
     const endDate = 31;
     const startTime = '09:30';
     const endTime = '18:00';
-    const waitMSec = 1000;
+    const waitMSec = 1500;
 
     // weekly report end time
     let dt = new Date(0, 0, 0, Number(endTime.slice(0, 2)), Number(endTime.slice(-2)));
