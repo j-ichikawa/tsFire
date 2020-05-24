@@ -1,38 +1,23 @@
-import os
 import sys
-import time
+import requests
 
-from jsmin import jsmin
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
+from pdf import extract_kinmu_model_json
 
-login_id = sys.argv[1]
-password = sys.argv[2]
+try:
+    pdf = sys.argv[1]
+except:
+    print("Missing kinmu pdf")
+    sys.exit()
 
-userdata_dir = 'UserData'
-os.makedirs(userdata_dir, exist_ok=True)
+kinmu_model: str = extract_kinmu_model_json(pdf)
 
-options = webdriver.ChromeOptions()
-options.add_argument('--user-data-dir=' + userdata_dir)
+with open('input.js', 'r') as c:
+    js = c.read()
 
-with webdriver.Chrome(executable_path='./chromedriver', options=options) as driver:
-    driver.get('https://ap.salesforce.com/home/home.jsp')
+js = js.replace('KINMU_MODELS', kinmu_model)
 
-    # Login
-    driver.find_element_by_name('username').send_keys(login_id)
-    driver.find_element_by_name('pw').send_keys(password)
-    driver.find_element_by_name('Login').click()
+payload = {'input': js}
+url = 'https://javascript-minifier.com/raw'
+r = requests.post(url, payload)
 
-    kinmu_tab_id = '01r100000009qXD_Tab'
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, kinmu_tab_id)))
-    driver.find_element_by_id(kinmu_tab_id).click()
-
-    # WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'largeTable')))
-    time.sleep(3)
-
-    with open('kinmu_inputter.js') as f:
-        js_min = jsmin(f.read())
-        driver.execute_script(js_min)
-        time.sleep(300)  # during execute js
+print(f"Just paste it into your browser js console and run it🔥\n↓\n{r.text}")
