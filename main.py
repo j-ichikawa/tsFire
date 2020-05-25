@@ -1,4 +1,5 @@
 import sys
+
 import requests
 
 from pdf import extract_kinmu_model_json
@@ -20,4 +21,4 @@ payload = {'input': js}
 url = 'https://javascript-minifier.com/raw'
 r = requests.post(url, payload)
 
-print(f"Just paste it into your browser js console and run it🔥\n↓\n{r.text}")
+print(f"Just paste it into your browser js console and run it🔥\n↓\n\n{r.text}\n")

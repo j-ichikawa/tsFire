@@ -32,7 +32,7 @@
             }
 
             // clear break time
-            if(kinmu[2]==='0'){
+            if (kinmu[2] === '0') {
                 document.getElementById('startRest1').value = '';
                 document.getElementById('endRest1').value = '';
             }
