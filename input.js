@@ -44,7 +44,10 @@
             // input note
             if (isFriday) {
                 document.getElementById('dailyNoteIcon' + date).click();
-                document.getElementById('dialogNoteText2').value = '週報作成 0:30h';
+                const weeklyReportNote = '週報作成 0:30h'
+                if (!document.getElementById('dialogNoteText2').value.includes(weeklyReportNote)) {
+                    document.getElementById('dialogNoteText2').value += weeklyReportNote
+                }
                 document.getElementById('dialogNoteOk').click();
 
                 await new Promise(resolve => setTimeout(resolve, waitMSec));
