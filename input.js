@@ -3,7 +3,7 @@
     // variables
     const startDate = 1;
     const endDate = 31;
-    const waitMSec = 1500;
+    const waitMSec = 2000;
     const kinmu_models = JSON.parse('KINMU_MODELS')
 
     for (let i = startDate; i <= endDate; i++) {
