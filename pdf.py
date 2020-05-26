@@ -8,26 +8,25 @@ from pdfminer.high_level import extract_text
 def extract_kinmu_model_json(pdf_path: str) -> str:
     texts: List[str] = [_ for _ in extract_text(pdf_path, laparams=None).splitlines() if _]
 
-    pattern: Pattern[str] = re.compile(r'\d+\s([月火水木金土日])')
+    pattern: Pattern[str] = re.compile(r'\d+\s')
     start_times: List[str] = [_ for _ in texts if pattern.match(_)]
 
+    work_days_number: int = len(list(filter(lambda x: len(x) > 4, start_times)))
+
+    error_indexes = __get_error_line_indexes(start_times)
+
     start_times_last_index: int = texts.index(start_times[-1])
-
-    work_days_title_index: int = texts.index('出勤日数')
-    work_days_number: int = int(texts[work_days_title_index + 1])
-
-    indexes = __get_error_line_indexes(start_times)
 
     end_times: List[str] = [_ for _ in texts[start_times_last_index + 1:start_times_last_index + 1 + work_days_number]]
     # error correction
     end_times = [_ for _ in end_times if ':' in _]
-    [end_times.insert(_, '18:00') for _ in indexes]
+    [end_times.insert(_, '18:00') for _ in error_indexes]
 
-    breaks: List[str] = [_ for _ in texts[work_days_title_index - 1:work_days_title_index - 1 - work_days_number:-1]]
-    breaks.reverse()
+    breaks_start_index: int = start_times_last_index + len(end_times) - 1
+    breaks: List[str] = [_ for _ in texts[breaks_start_index:breaks_start_index + work_days_number]]
     # error correction
     breaks = [_ for _ in breaks if ':' not in _]
-    [breaks.insert(_, '1') for _ in indexes]
+    [breaks.insert(_, '1') for _ in error_indexes]
 
     kinmu_models = {}
     work_days_index = 0
