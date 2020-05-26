@@ -1,3 +1,4 @@
+import pkgutil
 import sys
 
 import requests
@@ -12,9 +13,8 @@ except:
 
 kinmu_model: str = extract_kinmu_model_json(pdf)
 
-with open('input.js', 'r') as c:
-    js = c.read()
-
+data = pkgutil.get_data('lib', 'input.js')
+js = data.decode('utf-8')
 js = js.replace('KINMU_MODELS', kinmu_model)
 
 payload = {'input': js}
