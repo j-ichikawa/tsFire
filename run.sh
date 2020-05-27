@@ -10,5 +10,5 @@ fi
 python3 -m venv venv 1> /dev/null
 source venv/bin/activate 1> /dev/null
 pip3 install -r requirements.txt 1> /dev/null
-python3 main.py "$1"
+python3 __main__.py "$1"
 deactivate
