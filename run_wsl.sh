@@ -7,8 +7,7 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
-# shellcheck disable=SC1035
-if !(pip3 > /dev/null 2>&1); then
+if ! (pip3 > /dev/null 2>&1); then
   if [ ! -e get-pip.py ]; then
     echo "startin' enable pip..."
     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
