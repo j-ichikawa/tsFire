@@ -22,8 +22,8 @@ def extract_kinmu_model_json(pdf_path: str) -> str:
     end_times = [_ for _ in end_times if ':' in _]
     [end_times.insert(_, '18:00') for _ in error_indexes]
 
-    breaks_start_index: int = start_times_last_index + len(end_times) - 1
-    breaks: List[str] = [_ for _ in texts[breaks_start_index:breaks_start_index + work_days_number]]
+    breaks_start_index: int = start_times_last_index + len(end_times)
+    breaks: List[str] = [_ for _ in texts[breaks_start_index:breaks_start_index + work_days_number + 1]]
     # error correction
     breaks = [_ for _ in breaks if ':' not in _]
     [breaks.insert(_, '1') for _ in error_indexes]
